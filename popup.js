@@ -43,20 +43,32 @@ function copyToClipboard(text, type) {
     });
 }
 
-function rgbToHex(rgb) {
-    if (rgb.startsWith('#')) {
-        return rgb;
+function rgbToHex(color) {
+    // If it's already a hex color, return it
+    if (color.startsWith('#')) {
+        return color;
     }
 
-    const rgbValues = rgb.match(/\d+/g);
-    if (!rgbValues || rgbValues.length !== 3) {
-        return rgb;
+    // Create a temporary element to use the browser's color parsing
+    const tempElement = document.createElement('div');
+    tempElement.style.color = color;
+    document.body.appendChild(tempElement);
+    const computedColor = window.getComputedStyle(tempElement).color;
+    document.body.removeChild(tempElement);
+
+    // Extract RGB values
+    const rgbValues = computedColor.match(/\d+/g);
+
+    if (rgbValues && rgbValues.length >= 3) {
+        // Convert RGB to hex
+        return '#' + rgbValues.slice(0, 3).map(x => {
+            const hex = parseInt(x).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        }).join('');
     }
 
-    return '#' + rgbValues.map(x => {
-        const hex = parseInt(x).toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
-    }).join('');
+    // If conversion fails, return the original color
+    return color;
 }
 
 function showMessage(msg) {
