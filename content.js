@@ -17,7 +17,8 @@ function extractFonts() {
 
     for (let element of elements) {
         const style = window.getComputedStyle(element);
-        fonts.add(style.fontFamily);
+        const fontFamily = style.fontFamily.split(',').slice(0, 2).join(', ').replace(/['"]+/g, '');
+        fonts.add(fontFamily.trim());
     }
 
     return Array.from(fonts);

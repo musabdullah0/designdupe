@@ -14,7 +14,7 @@ function displayColors(colors) {
         colorBox.className = 'color-box';
         colorBox.style.backgroundColor = color;
         colorBox.title = color;
-        colorBox.addEventListener('click', () => copyToClipboard(color));
+        colorBox.addEventListener('click', () => copyToClipboard(color, 'color'));
         colorsDiv.appendChild(colorBox);
     });
 }
@@ -23,34 +23,36 @@ function displayFonts(fonts) {
     const fontsDiv = document.getElementById('fonts');
     fonts.forEach(font => {
         const fontElement = document.createElement('p');
+        fontElement.className = 'font-item';
         fontElement.textContent = font;
         fontElement.style.fontFamily = font;
+        fontElement.addEventListener('click', () => copyToClipboard(font, 'font'));
         fontsDiv.appendChild(fontElement);
     });
 }
 
-function copyToClipboard(color) {
-    const hexColor = rgbToHex(color);
-    navigator.clipboard.writeText(hexColor).then(() => {
-        showMessage(`Copied ${hexColor} to clipboard!`);
+function copyToClipboard(text, type) {
+    let copyText = text;
+    if (type === 'color') {
+        copyText = rgbToHex(text);
+    }
+    navigator.clipboard.writeText(copyText).then(() => {
+        showMessage(`Copied ${type}: ${copyText} to clipboard!`);
     }, (err) => {
         console.error('Could not copy text: ', err);
     });
 }
 
 function rgbToHex(rgb) {
-    // If the color is already in hex format, return it as is
     if (rgb.startsWith('#')) {
         return rgb;
     }
 
-    // Extract the RGB values
     const rgbValues = rgb.match(/\d+/g);
     if (!rgbValues || rgbValues.length !== 3) {
-        return rgb; // Return original value if it's not a valid RGB color
+        return rgb;
     }
 
-    // Convert RGB to hex
     return '#' + rgbValues.map(x => {
         const hex = parseInt(x).toString(16);
         return hex.length === 1 ? '0' + hex : hex;
