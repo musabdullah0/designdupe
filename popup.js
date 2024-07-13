@@ -21,7 +21,7 @@ function displayColors(colors) {
 
 function displayFonts(fonts) {
     const fontsDiv = document.getElementById('fonts');
-    fonts.forEach(font => {
+    fonts.slice(0, 2).forEach(font => {
         const fontElement = document.createElement('p');
         fontElement.className = 'font-item';
         fontElement.textContent = font;

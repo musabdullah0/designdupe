@@ -17,8 +17,19 @@ function extractFonts() {
 
     for (let element of elements) {
         const style = window.getComputedStyle(element);
-        const fontFamily = style.fontFamily.split(',').slice(0, 2).join(', ').replace(/['"]+/g, '');
-        fonts.add(fontFamily.trim());
+        const specifiedFontFamily = style.getPropertyValue('font-family');
+        const computedFontFamily = style.fontFamily;
+
+        // Check if the computed font family matches one of the specified fonts
+        const specifiedFonts = specifiedFontFamily.split(',').map(font => font.trim().replace(/['"]+/g, ''));
+        const computedFonts = computedFontFamily.split(',').map(font => font.trim().replace(/['"]+/g, ''));
+
+        for (let font of specifiedFonts) {
+            if (computedFonts.includes(font) && font !== 'serif' && font !== 'sans-serif' && font !== 'monospace') {
+                fonts.add(font);
+                break; // Only add the first matching font
+            }
+        }
     }
 
     return Array.from(fonts);
