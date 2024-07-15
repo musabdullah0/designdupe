@@ -57,28 +57,38 @@ function rgbToHex(rgb) {
 }
 
 function extractFonts() {
-    const elements = document.getElementsByTagName('*');
-    const fonts = new Set();
+    const usedFonts = new Set();
+    const textNodes = [];
 
-    for (let element of elements) {
-        const style = window.getComputedStyle(element);
-        const specifiedFontFamily = style.getPropertyValue('font-family');
-        const computedFontFamily = style.fontFamily;
-
-        // Check if the computed font family matches one of the specified fonts
-        const specifiedFonts = specifiedFontFamily.split(',').map(font => font.trim().replace(/['"]+/g, ''));
-        const computedFonts = computedFontFamily.split(',').map(font => font.trim().replace(/['"]+/g, ''));
-
-        for (let font of specifiedFonts) {
-            if (computedFonts.includes(font) && font !== 'serif' && font !== 'sans-serif' && font !== 'monospace') {
-                fonts.add(font);
-                break; // Only add the first matching font
+    // Recursive function to get all text nodes
+    function getTextNodes(node) {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
+            textNodes.push(node);
+        } else {
+            for (let child of node.childNodes) {
+                getTextNodes(child);
             }
         }
     }
 
-    return Array.from(fonts);
+    // Get all text nodes in the body
+    getTextNodes(document.body);
+
+    // Check each text node for its font
+    textNodes.forEach(node => {
+        const element = node.parentElement;
+        if (element) {
+            const style = window.getComputedStyle(element);
+            const fontFamily = style.fontFamily.split(',')[0].trim().replace(/['"]+/g, '');
+            if (fontFamily !== 'serif' && fontFamily !== 'sans-serif' && fontFamily !== 'monospace') {
+                usedFonts.add(fontFamily);
+            }
+        }
+    });
+
+    return Array.from(usedFonts);
 }
+
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'extractData') {
@@ -87,4 +97,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             fonts: extractFonts()
         });
     }
+    return true; // Indicates that sendResponse will be called asynchronously
 });
