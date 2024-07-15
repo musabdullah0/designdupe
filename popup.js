@@ -14,10 +14,29 @@ function displayColors(colors) {
         const colorBox = document.createElement('div');
         colorBox.className = 'color-box';
         colorBox.style.backgroundColor = color;
-        colorBox.title = color;
+        colorBox.setAttribute('data-color', color);
         colorBox.addEventListener('click', () => copyToClipboard(color, 'color'));
+
+        // Determine text color based on background color brightness
+        const rgb = hexToRgb(color);
+        const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+        if (brightness > 125) {
+            colorBox.style.setProperty('--text-color', 'black');
+        } else {
+            colorBox.style.setProperty('--text-color', 'white');
+        }
+
         colorsDiv.appendChild(colorBox);
     });
+}
+
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
 }
 
 function displayFonts(fonts) {
