@@ -11,14 +11,14 @@ function displayColors(colors) {
     const colorsDiv = document.getElementById('colors');
     colorsDiv.innerHTML = ''; // Clear existing colors
     colors.forEach(color => {
-      const colorBox = document.createElement('div');
-      colorBox.className = 'color-box';
-      colorBox.style.backgroundColor = color;
-      colorBox.title = color;
-      colorBox.addEventListener('click', () => copyToClipboard(color, 'color'));
-      colorsDiv.appendChild(colorBox);
+        const colorBox = document.createElement('div');
+        colorBox.className = 'color-box';
+        colorBox.style.backgroundColor = color;
+        colorBox.title = color;
+        colorBox.addEventListener('click', () => copyToClipboard(color, 'color'));
+        colorsDiv.appendChild(colorBox);
     });
-  }
+}
 
 function displayFonts(fonts) {
     const fontsDiv = document.getElementById('fonts');
