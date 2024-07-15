@@ -12,9 +12,8 @@
     h2 {
       font-weight: 600;
     }
-    .color-box {
+    .color-box, .font-box {
       width: 100%;
-      height: 40px;
       margin-bottom: 10px;
       cursor: pointer;
       border-radius: 5px;
@@ -23,7 +22,14 @@
       position: relative;
       overflow: hidden;
     }
-    .color-box:hover {
+    .color-box {
+      height: 40px;
+    }
+    .font-box {
+      padding: 10px;
+      font-size: 16px;
+    }
+    .color-box:hover, .font-box:hover {
       transform: scale(1.05);
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
@@ -46,15 +52,6 @@
     .color-box:hover::after {
       opacity: 1;
     }
-    .font-item {
-      cursor: pointer;
-      padding: 5px;
-      border-radius: 3px;
-      transition: background-color 0.3s ease;
-    }
-    .font-item:hover {
-      background-color: #f0f0f0;
-    }
     #message {
       margin-top: 10px;
       color: green;
@@ -63,7 +60,7 @@
   </style>
 </head>
 <body>
-  <h2>Colors (Click to copy)</h2>
+  <h2>Top Colors (Click to copy)</h2>
   <div id="colors"></div>
   <h2>Fonts (Click to copy)</h2>
   <div id="fonts"></div>

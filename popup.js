@@ -68,13 +68,14 @@ function hexToRgb(hex) {
 
 function displayFonts(fonts) {
     const fontsDiv = document.getElementById('fonts');
-    fonts.slice(0, 2).forEach(font => {
-        const fontElement = document.createElement('p');
-        fontElement.className = 'font-item';
-        fontElement.textContent = font;
-        fontElement.style.fontFamily = font;
-        fontElement.addEventListener('click', () => copyToClipboard(font, 'font'));
-        fontsDiv.appendChild(fontElement);
+    fontsDiv.innerHTML = ''; // Clear existing fonts
+    fonts.forEach(font => {
+        const fontBox = document.createElement('div');
+        fontBox.className = 'font-box';
+        fontBox.textContent = font;
+        fontBox.style.fontFamily = font;
+        fontBox.addEventListener('click', () => copyToClipboard(font, 'font'));
+        fontsDiv.appendChild(fontBox);
     });
 }
 
