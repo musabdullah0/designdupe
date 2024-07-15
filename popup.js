@@ -1,11 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        if (!tabs[0]) {
+            displayError("Cannot access the current tab.");
+            return;
+        }
+
         chrome.tabs.sendMessage(tabs[0].id, { action: 'extractData' }, function (response) {
-            displayColors(response.colors);
-            displayFonts(response.fonts);
+            if (chrome.runtime.lastError) {
+                console.error('Error:', chrome.runtime.lastError.message);
+                displayError(`Error: ${chrome.runtime.lastError.message}`);
+                return;
+            }
+
+            if (response && response.colors) {
+                displayColors(response.colors);
+            } else {
+                displayError("No color data received.");
+            }
+
+            if (response && response.fonts) {
+                displayFonts(response.fonts);
+            } else {
+                displayError("No font data received.");
+            }
         });
     });
 });
+
+function displayError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.textContent = message;
+    errorDiv.style.color = 'red';
+    document.body.appendChild(errorDiv);
+}
 
 function displayColors(colors) {
     const colorsDiv = document.getElementById('colors');
