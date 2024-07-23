@@ -91,11 +91,13 @@ function extractFonts() {
 
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'extractData') {
-        sendResponse({
-            colors: extractTopColors(),
-            fonts: extractFonts()
-        });
+    if (request.action === 'ping') {
+      sendResponse({status: 'ok'});
+    } else if (request.action === 'extractData') {
+      sendResponse({
+        colors: extractTopColors(),
+        fonts: extractFonts()
+      });
     }
-    return true; // Indicates that sendResponse will be called asynchronously
-});
+    return true;  // Indicates that sendResponse will be called asynchronously
+  });

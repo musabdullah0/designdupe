@@ -1,26 +1,37 @@
-function sendMessageToContentScript(retries = 3) {
+function ensureContentScriptInjected(callback) {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         if (!tabs[0]) {
             displayError("Cannot access the current tab.");
             return;
         }
 
-        // Check if we can inject scripts into this tab
-        const url = new URL(tabs[0].url);
-        if (url.protocol === 'chrome:' || url.protocol === 'chrome-extension:') {
-            displayError("Cannot access this page due to Chrome's security policy.");
-            return;
-        }
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'ping' }, function (response) {
+            if (chrome.runtime.lastError || !response) {
+                // Content script is not injected, inject it now
+                chrome.scripting.executeScript({
+                    target: { tabId: tabs[0].id },
+                    files: ['content.js']
+                }, function () {
+                    if (chrome.runtime.lastError) {
+                        displayError(`Failed to inject content script: ${chrome.runtime.lastError.message}`);
+                    } else {
+                        callback();
+                    }
+                });
+            } else {
+                // Content script is already injected
+                callback();
+            }
+        });
+    });
+}
 
+function sendMessageToContentScript() {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, { action: 'extractData' }, function (response) {
             if (chrome.runtime.lastError) {
-                console.warn('Error:', chrome.runtime.lastError.message);
-                if (retries > 0) {
-                    console.log(`Retrying... (${retries} attempts left)`);
-                    setTimeout(() => sendMessageToContentScript(retries - 1), 200);
-                } else {
-                    displayError(`Failed to communicate with the page. Please refresh and try again.`);
-                }
+                console.error('Error:', chrome.runtime.lastError.message);
+                displayError(`Error: ${chrome.runtime.lastError.message}`);
                 return;
             }
 
@@ -39,9 +50,8 @@ function sendMessageToContentScript(retries = 3) {
     });
 }
 
-// Call this function when the popup is loaded
 document.addEventListener('DOMContentLoaded', function () {
-    sendMessageToContentScript();
+    ensureContentScriptInjected(sendMessageToContentScript);
 });
 
 function displayError(message) {
