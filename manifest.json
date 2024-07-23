@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "DesignDupe",
     "version": "1.0",
-    "description": "Extracts colors and fonts from the current webpage",
+    "description": "Identify colors and fonts on any website to elevate your creativity.",
     "permissions": ["activeTab", "scripting"],
     "icons": {
       "16": "icons/icon16.png",
