@@ -5,18 +5,22 @@ function ensureContentScriptInjected(callback) {
             return;
         }
 
+        const url = tabs[0].url;
+        if (url.startsWith('chrome://') || url.startsWith('chrome-extension://')) {
+            displayError("This extension cannot run on this page due to Chrome's security policy.");
+            return;
+        }
+
         chrome.tabs.sendMessage(tabs[0].id, { action: 'ping' }, function (response) {
             if (chrome.runtime.lastError || !response) {
                 // Content script is not injected, inject it now
                 chrome.scripting.executeScript({
                     target: { tabId: tabs[0].id },
                     files: ['content.js']
-                }, function () {
-                    if (chrome.runtime.lastError) {
-                        displayError(`Failed to inject content script: ${chrome.runtime.lastError.message}`);
-                    } else {
-                        callback();
-                    }
+                }).then(() => {
+                    callback();
+                }).catch(error => {
+                    displayError(`Failed to inject content script: ${error.message}`);
                 });
             } else {
                 // Content script is already injected
