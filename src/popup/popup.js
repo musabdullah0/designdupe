@@ -153,7 +153,7 @@ function rgbToHex(color) {
 function showMessage(msg) {
     const messageDiv = document.getElementById('message');
     messageDiv.textContent = msg;
-    setTimeout(() => {
-        messageDiv.textContent = '';
-    }, 2000);
+    // setTimeout(() => {
+    //     messageDiv.textContent = '';
+    // }, 2000);
 }

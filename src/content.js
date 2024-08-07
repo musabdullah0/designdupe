@@ -17,7 +17,7 @@ function extractTopColors() {
     // Sort colors by area and get top 6
     const sortedColors = Array.from(colorMap.entries())
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 6)
+        // .slice(0, 6)
         .map(([color, _]) => color);
 
     return sortedColors;
