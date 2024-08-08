@@ -5,14 +5,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      width: 300px;
+      width: 500px;
       padding: 10px;
       font-family: 'Inter', sans-serif;
     }
     h2 {
       font-weight: 600;
     }
-    #colors, #fonts {
+    #colors, #fonts, .header {
       padding: 0 10px;
     }
     .color-box, .font-box {
@@ -60,15 +60,29 @@
       margin-top: 10px;
       font-style: italic;
     }
+    .horizontal {
+      display: flex;
+      justify-content: space-between;
+    }
+    .column {
+      width: 48%;
+    }
   </style>
 </head>
 <body>
   <h1>DesignDupe</h1>
   <div id="message">Click to copy to clipboard</div>
-  <h2>Colors</h2>
-  <div id="colors"></div>
-  <h2>Fonts</h2>
-  <div id="fonts"></div>
+  <div class="horizontal">
+    <div class="column">
+      <h2 class="header">Colors</h2>
+      <div id="colors"></div>
+    </div>
+    <div class="column">
+      <h2 class="header">Fonts</h2>
+      <div id="fonts"></div>
+    </div>
+  </div>
+  
   <script src="popup.js"></script>
 </body>
 </html>
