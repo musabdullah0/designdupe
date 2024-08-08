@@ -14,10 +14,12 @@ Past: install one extension to identify colors, another for fonts, and then hove
 
 Now: click on the DesignDupe extension and see all of the fonts/colors present on the page instantly!
 
-History:
+## History:
+
 1.1
   - fonts/colors now side by side
   - moved clipboard message to top
   - restructured repo
+
 1.0
   - First working version!
