@@ -4,16 +4,17 @@
   <title>Color and Font Extractor</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    .container {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
     body {
       width: 500px;
-      padding: 10px;
+      padding: 10px 10px;
       font-family: 'Inter', sans-serif;
     }
     h2 {
       font-weight: 600;
-    }
-    #colors, #fonts, .header {
-      padding: 0 10px;
     }
     .color-box, .font-box {
       width: 100%;
@@ -34,7 +35,6 @@
       font-size: 16px;
     }
     .color-box:hover, .font-box:hover {
-      transform: scale(1.03);
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
     .color-box::after {
@@ -70,16 +70,18 @@
   </style>
 </head>
 <body>
-  <h1>DesignDupe</h1>
-  <div id="message">Click to copy to clipboard</div>
-  <div class="horizontal">
-    <div class="column">
-      <h2 class="header">Colors</h2>
-      <div id="colors"></div>
-    </div>
-    <div class="column">
-      <h2 class="header">Fonts</h2>
-      <div id="fonts"></div>
+  <div class="container">
+    <h1>DesignDupe</h1>
+    <div id="message">Click to copy to clipboard</div>
+    <div class="horizontal">
+      <div class="column">
+        <h2 class="header">Colors</h2>
+        <div id="colors"></div>
+      </div>
+      <div class="column">
+        <h2 class="header">Fonts</h2>
+        <div id="fonts"></div>
+      </div>
     </div>
   </div>
   
