@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Color and Font Extractor</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -8,15 +9,19 @@
       margin-left: 10px;
       margin-right: 10px;
     }
+
     body {
       width: 500px;
       padding: 10px 10px;
       font-family: 'Inter', sans-serif;
     }
+
     h2 {
       font-weight: 600;
     }
-    .color-box, .font-box {
+
+    .color-box,
+    .font-box {
       width: 100%;
       margin-bottom: 10px;
       cursor: pointer;
@@ -27,16 +32,21 @@
       overflow: hidden;
       box-sizing: border-box;
     }
+
     .color-box {
       height: 40px;
     }
+
     .font-box {
       padding: 10px;
       font-size: 16px;
     }
-    .color-box:hover, .font-box:hover {
+
+    .color-box:hover,
+    .font-box:hover {
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
+
     .color-box::after {
       content: attr(data-color);
       position: absolute;
@@ -53,22 +63,64 @@
       opacity: 0;
       transition: opacity 0.3s ease;
     }
+
     .color-box:hover::after {
       opacity: 1;
     }
+
     #message {
       margin-top: 10px;
       font-style: italic;
     }
+
     .horizontal {
       display: flex;
       justify-content: space-between;
     }
+
     .column {
       width: 48%;
     }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #f0f0f0;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .feedback-link {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      background-color: #e0e0e0;
+    }
+
+    .feedback-link:hover {
+      background-color: #d0d0d0;
+    }
+
+    .feedback-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+      margin-bottom: -2px
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>DesignDupe</h1>
@@ -83,8 +135,19 @@
         <div id="fonts"></div>
       </div>
     </div>
+    <footer class="footer">
+      <img src="../icons/icon128.png" alt="Extension Icon" class="footer-icon">
+      <a href="https://forms.gle/RrYVGEFkTDPJG6Rr7" target="_blank" class="feedback-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feedback-icon">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        Feedback
+      </a>
+    </footer>
   </div>
-  
+
   <script src="popup.js"></script>
 </body>
+
 </html>
